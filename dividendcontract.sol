@@ -1,4 +1,29 @@
-// SPDX-License-Identifier: MIT
+/*  部署参数： */
+      
+      /* Value填写：200000000000000000 （0.2BNB） */
+      /* CONTRACT 选择 dividendcontract， */
+      /* name_: BTC COIN (代币名称) */
+      /* symbol_: BTC (代币简称) */
+      /* totalSupply_: 1000000000000000 (发行量 发多少就写多少) */
+      /* rewardAddr_: 要分红的代币合约地址 */
+      /* marketingWalletAddr_: 你自己的营销钱包地址 */
+      /* buyFeeSetting_: [4,3,2,1] (买入分红、流动性、营销钱包、燃烧) */
+      /* sellFeeSetting_: [5,4,3,2] (卖出分红、流动性、营销钱包、燃烧) */
+      /* tokenBalanceForReward_: 10000000000000000000000 (持有多少代币参与分红。数量后要加18个0) */
+
+/* 编译/开源参数 */
+
+     /* COMPILER: v0.8.7+commit.e28d00a7.js */
+     /* Enable optimization: 开启并使用默认值200 */
+     /* Other Settings: default evmVersion, MIT license */
+
+/* 遇到问题可联系TG： */
+
+     /* 电报： https://t.me/zvx_Staff */
+     /* TG群： https://t.me/ZVX_Official */
+
+
+// SPDX-License-Identifier: MIT 
 pragma solidity ^0.8.0;
 
 abstract contract Context {
