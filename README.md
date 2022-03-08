@@ -5,7 +5,8 @@
 # 源码：
 https://github.com/tmimehi/dividendcontract/blob/main/dividendcontract.sol
 
-
+# 图文教程
+https://blog.csdn.net/weixin_42572056/article/details/123364845?spm=1001.2014.3001.5501
 # 如果遇到问题可联系TG：
 
 https://t.me/zvx_Staff
