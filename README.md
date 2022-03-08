@@ -34,11 +34,15 @@ https://github.com/tmimehi/dividendcontract/blob/main/dividendcontract.sol
 6，点击编译
 
 7，选择编译版本0.8.7
+
 9，点击 编辑
 
 ![3](https://user-images.githubusercontent.com/100020516/157315496-71ef72fc-ebda-4b91-9519-1c8e13aaab70.png)
+
 10,选择dividendcontract
+
 ![4](https://user-images.githubusercontent.com/100020516/157315543-953e55e6-b8d8-44f7-acb4-66ad6e471f3f.png)
+
 11,ENVIRONMENT选择：injected Web3
 
 VALUE输入：200000000000000000
@@ -58,7 +62,9 @@ buyFeeSetting_: [4,3,2,1] (分红、流动性、营销钱包、燃烧)
 sellFeeSetting_: [5,4,3,2] (分红、流动性、营销钱包、燃烧)
 
 tokenBalanceForReward_: 10000000000000000000000 (持有多少代币参与分红。数量后要加18个0)
+
 ![5](https://user-images.githubusercontent.com/100020516/157315588-56153b79-3a68-40d2-8501-75bee35edcdc.png)
+
 12，点击 transact 
 
 13，小狐狸钱包点击确认
