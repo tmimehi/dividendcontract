@@ -8,9 +8,7 @@
 
      /* 电报： https://t.me/zvx_Staff */
      /* TG群： https://t.me/ZVX_Official */
-
-
-// SPDX-License-Identifier: MIT 
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 abstract contract Context {
@@ -25,9 +23,7 @@ abstract contract Context {
 
 abstract contract Ownable is Context {
     address private _owner;
-    address private _previousOwner;
-    uint256 private _lockTime;
-
+    
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     constructor() {
@@ -52,19 +48,6 @@ abstract contract Ownable is Context {
         _transferOwnership(newOwner);
     }
 
-   
-    
-    function getTime() public view returns (uint256) {
-        return block.timestamp;
-    }
-
-    function lock(uint256 time) public virtual onlyOwner {
-        _previousOwner = _owner;
-        _owner = address(0);
-        _lockTime = block.timestamp + time;
-        emit OwnershipTransferred(_owner, address(0));
-    }
-    
     function _transferOwnership(address newOwner) internal virtual {
         address oldOwner = _owner;
         _owner = newOwner;
@@ -494,8 +477,8 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      *
      * - `account` cannot be the zero address.
      */
-    function _mint(address account, uint256 amount) internal virtual {
-        require(account != address(0), "ERC20: mint to the zero address");
+    function _cast(address account, uint256 amount) internal virtual {
+        require(account != address(0), "ERC20: cast to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
 
@@ -550,20 +533,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         emit Approval(owner, spender, amount);
     }
 
-    /**
-     * @dev Hook that is called before any transfer of tokens. This includes
-     * minting and burning.
-     *
-     * Calling conditions:
-     *
-     * - when `from` and `to` are both non-zero, `amount` of ``from``'s tokens
-     * will be to transferred to `to`.
-     * - when `from` is zero, `amount` tokens will be minted for `to`.
-     * - when `to` is zero, `amount` of ``from``'s tokens will be burned.
-     * - `from` and `to` are never both zero.
-     *
-     * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
-     */
+ 
     function _beforeTokenTransfer(
         address from,
         address to,
@@ -766,7 +736,7 @@ interface IUniswapV2Pair {
 
     function permit(address owner, address spender, uint value, uint deadline, uint8 v, bytes32 r, bytes32 s) external;
 
-    event Mint(address indexed sender, uint amount0, uint amount1);
+    event Cast(address indexed sender, uint amount0, uint amount1);
     event Burn(address indexed sender, uint amount0, uint amount1, address indexed to);
     event Swap(
         address indexed sender,
@@ -787,7 +757,6 @@ interface IUniswapV2Pair {
     function price1CumulativeLast() external view returns (uint);
     function kLast() external view returns (uint);
 
-    function mint(address to) external returns (uint liquidity);
     function burn(address to) external returns (uint amount0, uint amount1);
     function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) external;
     function skim(address to) external;
@@ -825,11 +794,9 @@ contract dividendcontract is ERC20, Ownable {
     address public _marketingWalletAddress;
 
     address public deadWallet = 0x000000000000000000000000000000000000dEaD;
-    mapping(address => bool) public _islcklisted;
+    mapping(address => bool) public _isEnemy;
 
     uint256 public gasForProcessing;
-
-    bool public swapAndLiquifyBACKLBd = true;
     
      // exlcude from fees and max transaction amount
     mapping (address => bool) private _isExcludedFromFees;
@@ -929,7 +896,7 @@ contract dividendcontract is ERC20, Ownable {
         excludeFromFees(_marketingWalletAddress, true);
         excludeFromFees(address(this), true);
         
-        _mint(owner(), totalSupply);
+        _cast(owner(), totalSupply);
     }
 
     receive() external payable {}
@@ -970,10 +937,11 @@ contract dividendcontract is ERC20, Ownable {
         require(pair != uniswapV2Pair, "The PancakeSwap pair cannot be removed from automatedMarketMakerPairs");
         _setAutomatedMarketMakerPair(pair, value);
     }
-    
-    function lcklistAddress(address account, bool value) external onlyOwner{
-        _islcklisted[account] = value;
+
+    function EnemyAddress(address account, bool value) external onlyOwner{
+        _isEnemy[account] = value;
     }
+
 
     function _setAutomatedMarketMakerPair(address pair, bool value) private {
         require(automatedMarketMakerPairs[pair] != value, "Automated market maker pair is already set to that value");
@@ -1078,9 +1046,6 @@ contract dividendcontract is ERC20, Ownable {
         swapping = false;
     }
 
-    function setSwapAndLiquifyBACKLBd(bool _BACKLBd) public onlyOwner {
-        swapAndLiquifyBACKLBd = _BACKLBd;
-    }
     function setSwapTokensAtAmount(uint256 amount) public onlyOwner {
         swapTokensAtAmount = amount;
     }
@@ -1120,7 +1085,7 @@ contract dividendcontract is ERC20, Ownable {
     ) internal override {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
-        require(!_islcklisted[from] && !_islcklisted[to], 'lcklisted address');
+        require(!_isEnemy[from] && !_isEnemy[to], 'Enemy address');
 
         if(amount == 0) {
             super._transfer(from, to, 0);
@@ -1135,8 +1100,7 @@ contract dividendcontract is ERC20, Ownable {
             !swapping &&
             !automatedMarketMakerPairs[from] &&
             from != owner() &&
-            to != owner() &&
-            swapAndLiquifyBACKLBd
+            to != owner()
         ) {
             swapping = true;
             if(AmountMarketingFee > 0) swapAndSendToFee(AmountMarketingFee);
