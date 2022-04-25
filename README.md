@@ -46,7 +46,7 @@ sellFeeSetting_: [5,4,3,2] (分红、流动性、营销钱包、燃烧)
 
 tokenBalanceForReward_: 10000000000000000000000 (持有多少代币参与分红。数量后要加18个0)
 
-# BSC常用代币合约地址
+# BSC常用代币合约地址 不能分红BNB和wbnb 因为现在WBNB也不走薄饼交易所了
 
 SHIB: 0x2859e4544C4bB03966803b044A93563Bd2D0DD4D
 
